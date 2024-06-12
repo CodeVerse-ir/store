@@ -1,0 +1,31 @@
+<?php
+
+// import database information
+include '../env.php';
+
+// variable
+$tableName = 'order_detail';
+
+$in_order_number = $_POST['order_number'];
+$in_product_code = $_POST['product_code'];
+
+// connect to database
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// execute query
+$sql = "DELETE FROM {$tableName} WHERE order_number = '{$in_order_number}' AND product_code = '{$in_product_code}'";
+
+$result = $conn->query($sql);
+
+if ($result) {
+    echo "Record deleted successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+// disconnect from database
+$conn->close();
